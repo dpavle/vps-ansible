@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: true
+  pre_tasks: 
+     - name: update repositories cache
+       apt:
+           update_cache: yes
+  collections:
+     - devsec.hardening
+  roles: 
+     - os_hardening
+     - ssh_hardening  
+  vars:
+     # ssh hardening vars
+     ssh_allow_users: 'pavle'     
+
+     # os hardening vars
+     sysctl_overwrite:
+       # enable IPv4 traffic forwarding
+       net.ipv4.ip_forward: 1

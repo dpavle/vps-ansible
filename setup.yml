@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: true
+  pre_tasks: 
+     - name: update repositories cache
+       apt:
+           update_cache: yes
+  roles: 
+     - initialize
+  vars:
+  # user vars
+   admin_user: pavle
+   admin_ssh_pubkey: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"

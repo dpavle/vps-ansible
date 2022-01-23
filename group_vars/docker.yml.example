@@ -1,0 +1,3 @@
+---
+docker_alerts_token: # Telegram Bot API Token here 
+docker_alerts_channel: # Telegram Channel ID here 

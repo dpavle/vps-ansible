@@ -1,0 +1,29 @@
+---
+- name: create new admin account
+  become: yes
+  user:
+    name: "{{ admin_user }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes       
+
+- name: copy SSH public key from GitHub to the authorized_keys file
+  become: yes
+  authorized_key:
+    user: "{{ admin_user }}"
+    key: "{{ admin_ssh_pubkey }}"
+
+- name: allow sudo group to have passwordless sudo
+  become: yes
+  lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: "^%sudo"
+        line: "%sudo ALL=(ALL) NOPASSWD:ALL"
+        validate: visudo -cf %s        
+
+- name: disable the default user 
+  become: yes
+  user: 
+    name: "{{ ansible_user_id }}"
+    password: "!"
