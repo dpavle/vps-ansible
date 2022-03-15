@@ -1,5 +1,6 @@
 ---
 - name: uninstall old versions 
+  become: yes
   apt:
     name:
       - docker
@@ -9,7 +10,12 @@
       - runc
     state: absent
 
+- name: set variables 
+  set_fact:
+    user_name: "{{ ansible_user_id }}"
+    
 - name: set up the repository
+  become: yes
   apt: 
     name: 
       - ca-certificates
@@ -18,6 +24,7 @@
       - lsb-release
 
 - name: add docker's official GPG key
+  become: yes
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present 
@@ -32,6 +39,7 @@
     state: present
 
 - name: update apt cache
+  become: yes
   apt:
     update_cache: yes
 
@@ -46,6 +54,6 @@
 - name: add user to docker group
   become: yes
   user: 
-    name: "{{ ansible_user_id }}"
+    name: "{{ user_name }}"
     groups: docker
     append: yes

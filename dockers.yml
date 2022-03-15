@@ -1,8 +1,8 @@
 ---
 - hosts: docker
-  become: true
   pre_tasks: 
      - name: update repositories cache
+       become: yes
        apt:
            update_cache: yes
   collections:
@@ -11,6 +11,7 @@
      - install_docker
   tasks:
   - name: make sure we got pip
+    become: yes
     apt: 
       name: pip
       state: present
@@ -20,6 +21,7 @@
       name: docker
 
   - name: deploy docker images
+    become: yes
     block:
       - name: deploy watchtower
         community.docker.docker_container:
