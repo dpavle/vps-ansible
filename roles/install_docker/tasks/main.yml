@@ -34,6 +34,7 @@
   register: arch
 
 - name: set up docker apt repository 
+  become: yes
   apt_repository:
     repo: "deb [arch={{ arch.stdout }}] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} {{ docker_version | default('stable')}}"
     state: present

@@ -21,7 +21,6 @@
       name: docker
 
   - name: deploy docker images
-    become: yes
     block:
       - name: deploy watchtower
         community.docker.docker_container:
