@@ -31,7 +31,7 @@
       - name: deploy docker-telegram-notifier
         community.docker.docker_container:
           name: telegram-notifier
-          image: arefaslani/docker-telegram-notifier
+          image: lorcas/docker-telegram-notifier
           env:
             TELEGRAM_NOTIFIER_BOT_TOKEN: "{{ docker_alerts_token }}"
             TELEGRAM_NOTIFIER_CHAT_ID: "{{ docker_alerts_channel }}"  
