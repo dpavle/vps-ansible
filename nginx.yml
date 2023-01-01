@@ -1,0 +1,53 @@
+---
+- hosts: webservers
+  vars:
+    certbot_install_method: snap
+    certbot_create_if_missing: true
+    certbot_admin_email: dencic.pavle@gmail.com
+    certbot_certs:
+    - domains:
+        - "{{ domain }}"
+  pre_tasks:
+     - name: update repositories cache
+       become: yes
+       apt:
+          update_cache: yes
+  tasks:
+  - name: install nginx
+    become: yes
+    apt:
+      name: nginx    
+
+  - name: delete default nginx site
+    become: yes
+    file:
+      path: /etc/nginx/sites-available/default
+      state: absent
+    notify: restart nginx
+
+  - name: configure nginx
+    become: yes
+    template:
+     src: nginx.conf.j2
+     dest: /etc/nginx/nginx.conf
+     owner: root
+     group: root
+     mode: '0644'
+    notify: restart nginx
+
+  - name: configure site
+    become: yes
+    template:
+     src: site.j2
+     dest: /etc/nginx/sites-available/{{ site }}
+     owner: root
+     group: root
+     mode: '0644'
+    notify: restart nginx
+  
+  roles:
+  - role: geerlingguy.certbot
+    become: yes
+  handlers:
+    - name: restart nginx
+      command: "kill -HUP `cat /var/run/nginx.pid`"
