@@ -1,18 +1,18 @@
 ---
 - hosts: all
   become: true
-  pre_tasks: 
+  pre_tasks:
      - name: update repositories cache
        apt:
            update_cache: yes
   collections:
      - devsec.hardening
-  roles: 
+  roles:
      - os_hardening
-     - ssh_hardening  
+     - ssh_hardening
   vars:
      # ssh hardening vars
-     ssh_allow_users: 'pavle'     
+     ssh_allow_users: 'pavle'
 
      # os hardening vars
      sysctl_overwrite:

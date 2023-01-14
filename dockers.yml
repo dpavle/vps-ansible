@@ -1,18 +1,18 @@
 ---
 - hosts: docker
-  pre_tasks: 
+  pre_tasks:
      - name: update repositories cache
        become: yes
        apt:
            update_cache: yes
   collections:
      - community.docker
-  roles: 
+  roles:
      - install_docker
   tasks:
   - name: make sure we got pip
     become: yes
-    apt: 
+    apt:
       name: pip
       state: present
 
@@ -27,13 +27,13 @@
           name: watchtower
           image: containrrr/watchtower
           volumes:
-            - /var/run/docker.sock:/var/run/docker.sock   
+            - /var/run/docker.sock:/var/run/docker.sock
       - name: deploy docker-telegram-notifier
         community.docker.docker_container:
           name: telegram-notifier
           image: lorcas/docker-telegram-notifier
           env:
             TELEGRAM_NOTIFIER_BOT_TOKEN: "{{ docker_alerts_token }}"
-            TELEGRAM_NOTIFIER_CHAT_ID: "{{ docker_alerts_channel }}"  
+            TELEGRAM_NOTIFIER_CHAT_ID: "{{ docker_alerts_channel }}"
           volumes:
             - /var/run/docker.sock:/var/run/docker.sock

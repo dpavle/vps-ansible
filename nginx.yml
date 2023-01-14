@@ -16,7 +16,7 @@
   - name: install nginx
     become: yes
     apt:
-      name: nginx    
+      name: nginx
 
   - name: delete default nginx site
     become: yes
@@ -44,7 +44,7 @@
      group: root
      mode: '0644'
     notify: restart nginx
-  
+
   roles:
   - role: geerlingguy.certbot
     become: yes

@@ -1,11 +1,11 @@
 ---
 - hosts: all
   become: true
-  pre_tasks: 
+  pre_tasks:
      - name: update repositories cache
        apt:
            update_cache: yes
-  roles: 
+  roles:
      - initialize
   vars:
   # user vars
