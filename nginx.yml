@@ -1,12 +1,5 @@
 ---
 - hosts: webservers
-  vars:
-    certbot_install_method: snap
-    certbot_create_if_missing: true
-    certbot_admin_email: dencic.pavle@gmail.com
-    certbot_certs:
-    - domains:
-        - "{{ domain }}"
   pre_tasks:
      - name: update repositories cache
        become: yes
@@ -35,19 +28,33 @@
      mode: '0644'
     notify: restart nginx
 
+  - name: create the site root directory
+    become: yes
+    file:
+      path: "{{ root }}"
+      owner: root
+      group: www-data
+      mode: u=rwx,g=rwx,o=r
+      state: directory
+
   - name: configure site
     become: yes
     template:
      src: site.j2
-     dest: /etc/nginx/sites-available/{{ site }}
+     dest: /etc/nginx/sites-available/{{ domain }}
      owner: root
      group: root
      mode: '0644'
     notify: restart nginx
-
-  roles:
-  - role: geerlingguy.certbot
+  
+  - name: Create symbolic link
     become: yes
+    file:
+      src: /etc/nginx/sites-available/{{ domain }}
+      dest: /etc/nginx/sites-enabled/{{ domain }}
+      state: link
+    notify: restart nginx
+      
   handlers:
     - name: restart nginx
-      command: "kill -HUP `cat /var/run/nginx.pid`"
+      command: "kill -HUP 'cat /var/run/nginx.pid'"
