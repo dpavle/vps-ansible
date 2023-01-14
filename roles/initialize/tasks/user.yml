@@ -25,5 +25,5 @@
 - name: disable the default user
   become: yes
   user:
-    name: "{{ ansible_user_id }}"
+    name: "{{ ansible_env.SUDO_USER }}"
     password: "!"
