@@ -1,5 +1,5 @@
 ---
-- hosts: docker
+- hosts: dockers
   pre_tasks:
      - name: update repositories cache
        become: yes
@@ -20,14 +20,13 @@
     pip:
       name: docker
 
+  - name: make sure docker is running
+    service:
+      name: docker
+      state: started
+
   - name: deploy docker images
     block:
-      - name: deploy watchtower
-        community.docker.docker_container:
-          name: watchtower
-          image: containrrr/watchtower
-          volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
       - name: deploy docker-telegram-notifier
         community.docker.docker_container:
           name: telegram-notifier
@@ -37,3 +36,4 @@
             TELEGRAM_NOTIFIER_CHAT_ID: "{{ docker_alerts_channel }}"
           volumes:
             - /var/run/docker.sock:/var/run/docker.sock
+          restart_policy: "unless-stopped"
