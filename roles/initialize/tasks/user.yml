@@ -1,4 +1,10 @@
 ---
+- name: make sure sudo group exists
+  become: yes
+  group:
+    name: sudo 
+    state: present
+
 - name: create new admin account
   become: yes
   user:
