@@ -1,0 +1,3 @@
+nagios_users:
+  - user: nagiosadmin
+    pass: nagiospassword

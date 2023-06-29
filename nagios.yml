@@ -1,0 +1,18 @@
+- hosts: monitoring-servers
+  gather_facts: true
+  become: yes
+  vars_files:
+   - vars/nagios.yml
+  tasks: 
+    - name: disable firewalld
+      service: 
+        name: firewalld
+        state: stopped
+        enabled: false
+      when: ansible_distribution == 'CentOS'
+    - name: set SELinux to permissive mode 
+      selinux:
+        state: permissive
+        policy: targeted
+  roles:
+   - networklore.nagios
