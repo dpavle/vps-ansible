@@ -1,0 +1,12 @@
+{% for host in groups['monitored-servers'] %}
+
+define host {
+        use                  linux-server
+        host_name            {{ hostvars[host]['inventory_hostname_short'] }}
+        hostgroups           linux-servers
+        alias                {{ hostvars[host]['inventory_hostname_short'] }}
+        address              {{ hostvars[host]['inventory_hostname'] }}
+        }
+
+{% endfor %}
+
