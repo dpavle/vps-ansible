@@ -1,6 +1,6 @@
-# VPS Configuration Playbooks
+# Configuration Playbooks
 
-This repository contains Ansible playbooks for configuring virtual private servers (VPS). These playbooks automate various tasks, such as server hardening, nginx installation and configuration, and docker deployment. 
+This repository contains Ansible playbooks for configuring servers. These playbooks automate various tasks, such as server hardening, nginx installation and configuration, and docker deployment. 
 
 ## nginx.yml 
 This playbook installs and configures the nginx server. The configuration is done using two templates: `nginx.conf.j2` and `site.j2`, which can be found in the `templates` directory.
