@@ -13,7 +13,7 @@
     groups: sudo
     append: yes
 
-- name: copy SSH public key from GitHub to the authorized_keys file
+- name: copy SSH public key to the authorized_keys file
   become: yes
   authorized_key:
     user: "{{ admin_user }}"
