@@ -8,7 +8,7 @@ This playbook installs and configures the nginx server. The configuration is don
 ## os+ssh_hardening.yml 
 This playbook performs security hardening for the Linux operating system and SSH. The hardening tasks are performed using the `devsec.hardening` Ansible collection.
 
-## dockers.yml 
+## docker.yml 
 This playbook installs and configures Docker. It also automatically deploys `watchtower` and `docker-telegram-notifier`. The telegram tokens for the latter can be provided in the `group_vars\docker.yml` file. The Docker installation is performed through the `install_docker` role, which can be found in the `roles\install_docker` directory.
 
 ## setup.yml 
